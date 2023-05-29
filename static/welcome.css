@@ -1,0 +1,23 @@
+body{
+    background: skyblue;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+#hello {
+    text-align: center;
+    animation-name: floatIn;
+    animation-duration: 3s;
+}
+
+@keyframes floatIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

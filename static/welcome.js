@@ -3,9 +3,10 @@ window.onload= function () {
     openSignup();
 }
 
-
   function openSignup() {
     setTimeout(() => {
-      window.location.href = "/intro";
+      window.location.href = "/login";
     }, 5000);
   }
+
+

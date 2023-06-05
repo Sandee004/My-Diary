@@ -1,15 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans&display=swap');
 body{
-    background: ghostwhite;
     font-family: "DM Sans", sans-serif;
-}
-.welcomeBody{
-    background: skyblue;
+    background: #025464;
     min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 2em;
+    font-size: 1.5em;
+    color: #E57C23;
 }
 
 #hello {

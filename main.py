@@ -2,6 +2,8 @@ from flask import Flask, request, redirect, render_template, url_for
 from replit import db
 app = Flask(__name__, static_url_path="/static")
 
+
+
 @app.route("/signup", methods=["POST"])
 def createUser():
   keys = db.keys()
@@ -16,13 +18,10 @@ def createUser():
 def doLogin():
   keys = db.keys()
   form = request.form
-  if form["username"] not in keys:
-    return "Credentials not recognized"
+  if form["password"] == db[form["username"]]["password"]:
+    return redirect('/home')
   else:
-    if form["password"]==db[form["username"]]["password"]:
-      return redirect('/home')
-    else:
-      return redirect("/login")
+    return redirect("/login")
 
 
 

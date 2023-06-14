@@ -1,63 +1,51 @@
-from flask import Flask, request, redirect, render_template, url_for
-from replit import db
-app = Flask(__name__, static_url_path="/static")
+from flask import Flask, render_template, request, session, flash, redirect, url_for
+from datetime import timedelta
 
+app = Flask(__name__)
+app.secret_key = "hello"
+app.permanent_session_lifetime = timedelta(minutes=5)
 
-
-@app.route("/signup", methods=["POST"])
-def createUser():
-  keys = db.keys()
-  form = request.form
-  if form["username"] not in keys:
-    db[form["username"]] = {"name": form["name"], "password": form["password"]}
-    return redirect("/login")
-  else:
-    return redirect("/signup")
-
-@app.route("/login", methods=["POST"])
-def doLogin():
-  keys = db.keys()
-  form = request.form
-  if form["password"] == db[form["username"]]["password"]:
-    return redirect('/home')
-  else:
-    return redirect("/login")
-
-
-
-@app.route("/login")
-def login():
-  page = ""
-  f = open("templates/login.html", "r")
-  page = f.read()
-  f.close()
-
-  css_url = url_for("static", filename="signup.css")
-  page = page + '<link rel="stylesheet" href="{}">'.format(css_url)
-  return page
-
-
-@app.route("/signup")
-def signup():
-  page = ""
-  f = open("templates/signup.html", "r")
-  page = f.read()
-  f.close()
-
-  css_url = url_for("static", filename="signup.css")
-  page = page + '<link rel="stylesheet" href="{}">'.format(css_url)
-  return page
 
 @app.route('/')
 def index():
-    return render_template ("welcome.html", css_url=url_for("static", filename="signup.css"))
+    return render_template('index.html')
 
-@app.route('/intro')
-def intro():
-    return render_template ("intro.html", css_url=url_for("static", filename="signup.css"))
+@app.route('/register/', methods = ["POST", "GET"])
+def register():
+    if request.method == "POST":
+        session.permanent = True
+        user = request.form["nm"]
+        password = request.form["password"]
+        session["user"] = user
+        session["password"] = password
+        flash('Signup successful')
+        return render_template('homepage.html')
+    else:
+        if "user" in session:
+            flash("User already exists. Login")
+            return redirect(url_for('login'))
+        return render_template('register.html')
+    
 
-@app.route('/home')
-def home():
-    return render_template("home.html", css_url=url_for("static", filename="signup.css"))
+@app.route('/login/', methods = ["POST", "GET"])
+def login():
+    if request.method == "POST":
+        password = request.form.get("Password")
+        if password and password == session.get("password"):
+            flash('Welcome')
+            return render_template('homepage.html')
+        else:
+            return 'Wrong password'
+    return render_template('login.html')
+    
 
-app.run(host='0.0.0.0', port=81)
+
+@app.route('/logout')
+def logout():
+    session.pop("user", None)
+    session.pop("password", None)
+    flash('Logout successful')
+    return redirect(url_for('register'))
+
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', port=81)

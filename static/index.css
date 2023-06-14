@@ -1,19 +1,19 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital@1&display=swap');
 body{
-    font-family: "DM Sans", sans-serif;
-    background: #025464;
     min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 1.5em;
-    color: #E57C23;
+    font-family: 'Roboto', sans-serif;
+    color: white;
+    background: #e75480;
 }
 
-#hello {
+p {
     text-align: center;
     animation-name: floatIn;
     animation-duration: 3s;
+    font-size: 25px;
 }
 
 @keyframes floatIn {
@@ -23,8 +23,4 @@ body{
   to {
     opacity: 1;
   }
-}
-
-h2{
-    text-align: center;
 }

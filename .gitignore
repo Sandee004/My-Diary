@@ -2,3 +2,6 @@
 .pyproject.toml
 .replit.nix
 venv
+.git
+.config
+.ump
